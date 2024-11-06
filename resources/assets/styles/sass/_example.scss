@@ -4,4 +4,22 @@
     &-red {
         color: red;
     }
+
+    &--header {
+        text-align: center;
+        font-size: 2rem;
+    }
+}
+
+.upload-button {
+    background-color: #fee169;
+    border:none;
+    padding: 1rem 2rem;
+    border-radius: 50px;
+}
+
+.center-all {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 }
