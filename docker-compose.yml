@@ -15,7 +15,7 @@ services:
     image: nginx:latest
     container_name: dynacdn-nginx
     volumes:
-      - ./var/www/file-hoster:/var/www/cdn
+      - /var/www/file-hoster:/var/www/cdn
       - ./docker/nginx/default.conf:/etc/nginx/conf.d/default.conf
     ports:
       - "80:80"
