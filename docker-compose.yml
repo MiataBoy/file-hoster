@@ -1,0 +1,44 @@
+services:
+  app:
+    build: .
+    image: php:8.3-fpm
+    container_name: dynacdn-app
+    working_dir: /var/www/cdn
+    volumes:
+      - /var/www/file-hoster:/var/www/cdn
+      - ./docker/php/php.ini:/usr/local/etc/php/php.ini
+      - ./docker/php/php-fpm/www.conf:/usr/local/etc/php-fpm.d/www.conf
+    networks:
+      - file-hoster_dynacdn-network
+
+  nginx:
+    image: nginx:latest
+    container_name: dynacdn-nginx
+    volumes:
+      - ./var/www/file-hoster:/var/www/cdn
+      - ./docker/nginx/default.conf:/etc/nginx/conf.d/default.conf
+    ports:
+      - "80:80"
+    depends_on:
+      - app
+    networks:
+      - file-hoster_dynacdn-network
+
+  db:
+    image: mariadb:latest
+    container_name: dynacdn-mariadb
+    environment:
+      MYSQL_ROOT_PASSWORD: dynacdn-r00t!
+      MYSQL_DATABASE: dynacdn
+      MYSQL_USER: dynacdn
+      MYSQL_PASSWORD: dynacdn00!
+    volumes:
+      - ./docker/mysql/data:/var/lib/mysql
+    ports:
+      - "3306:3306"
+    networks:
+      - file-hoster_dynacdn-network
+
+networks:
+  file-hoster_dynacdn-network:
+    external: true
